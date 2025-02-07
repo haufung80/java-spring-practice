@@ -3,10 +3,8 @@ package org.example.controller;
 import org.example.entity.PersonEntity;
 import org.example.model.Person;
 import org.example.service.PersonService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +27,18 @@ public class PersonController {
     @PostMapping("/persons")
     public PersonEntity createPerson(@RequestBody PersonEntity personEntity) {
         return personService.createPerson(personEntity.getName(), personEntity.getAge());
+    }
+
+    // Endpoint to update an existing person
+    @PutMapping("/persons/{id}")
+    public PersonEntity updatePerson(@PathVariable Long id, @RequestBody PersonEntity personDetails) {
+        return personService.updatePerson(id, personDetails);
+    }
+
+    // Endpoint to delete a person by id
+    @DeleteMapping("/persons/{id}")
+    public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
+        personService.deletePerson(id);
+        return ResponseEntity.noContent().build();
     }
 }
