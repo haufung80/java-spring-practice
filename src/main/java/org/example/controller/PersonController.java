@@ -1,5 +1,7 @@
 package org.example.controller;
 
+import jakarta.validation.Valid;
+import org.example.dto.PersonDTO;
 import org.example.entity.PersonEntity;
 import org.example.model.Person;
 import org.example.service.PersonService;
@@ -25,13 +27,15 @@ public class PersonController {
 
     // Endpoint to create a new person
     @PostMapping("/persons")
-    public PersonEntity createPerson(@RequestBody PersonEntity personEntity) {
+    public PersonEntity createPerson(@Valid @RequestBody PersonDTO personDTO) {
+        PersonEntity personEntity = new PersonEntity(personDTO.name(), personDTO.age());
         return personService.createPerson(personEntity.getName(), personEntity.getAge());
     }
 
     // Endpoint to update an existing person
     @PutMapping("/persons/{id}")
-    public PersonEntity updatePerson(@PathVariable Long id, @RequestBody PersonEntity personDetails) {
+    public PersonEntity updatePerson(@PathVariable Long id, @Valid @RequestBody PersonDTO personDTO) {
+        PersonEntity personDetails = new PersonEntity(personDTO.name(), personDTO.age());
         return personService.updatePerson(id, personDetails);
     }
 
