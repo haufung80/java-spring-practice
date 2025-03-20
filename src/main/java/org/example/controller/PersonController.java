@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import jakarta.validation.Valid;
+import org.example.client.PersonClient;
 import org.example.dto.PersonDTO;
 import org.example.entity.PersonEntity;
 import org.example.service.PersonServiceImpl;
@@ -14,8 +15,12 @@ public class PersonController {
 
     private final PersonServiceImpl personServiceImpl;
 
-    public PersonController(PersonServiceImpl personServiceImpl) {
+    private final PersonClient personClient;
+
+    public PersonController(PersonServiceImpl personServiceImpl,
+                            PersonClient personClient) {
         this.personServiceImpl = personServiceImpl;
+        this.personClient = personClient;
     }
 
     // Endpoint to retrieve all persons
@@ -48,5 +53,10 @@ public class PersonController {
     public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
         personServiceImpl.deletePerson(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/client/persons/{id}")
+    public ResponseEntity<PersonEntity> getPersonClientById(@PathVariable Long id) {
+        return personClient.getPersonById(id);
     }
 }
