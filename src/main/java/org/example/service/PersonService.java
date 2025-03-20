@@ -41,4 +41,8 @@ public class PersonService {
     public List<PersonEntity> getAllPersons() {
         return personRepository.findAll();
     }
+
+    public PersonEntity getPersonById(Long id) {
+        return personRepository.findById(id).orElse(null);
+    }
 }

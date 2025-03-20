@@ -25,6 +25,11 @@ public class PersonController {
         return personService.getAllPersons();
     }
 
+    @GetMapping("/persons/{id}")
+    public PersonEntity getPersonById(@PathVariable Long id) {
+        return personService.getPersonById(id);
+    }
+
     // Endpoint to create a new person
     @PostMapping("/persons")
     public PersonEntity createPerson(@Valid @RequestBody PersonDTO personDTO) {
