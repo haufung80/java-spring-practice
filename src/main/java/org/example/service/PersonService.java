@@ -6,6 +6,7 @@ import org.example.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -42,7 +43,7 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public PersonEntity getPersonById(Long id) {
-        return personRepository.findById(id).orElse(null);
+    public Optional<PersonEntity> getPersonById(Long id) {
+        return personRepository.findById(id);
     }
 }

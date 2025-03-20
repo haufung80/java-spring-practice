@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PersonController {
@@ -21,27 +22,27 @@ public class PersonController {
 
     // Endpoint to retrieve all persons
     @GetMapping("/persons")
-    public List<PersonEntity> getAllPersons() {
-        return personService.getAllPersons();
+    public ResponseEntity<List<PersonEntity>> getAllPersons() {
+        return ResponseEntity.of(Optional.ofNullable(personService.getAllPersons()));
     }
 
     @GetMapping("/persons/{id}")
-    public PersonEntity getPersonById(@PathVariable Long id) {
-        return personService.getPersonById(id);
+    public ResponseEntity<PersonEntity> getPersonById(@PathVariable Long id) {
+        return ResponseEntity.of(personService.getPersonById(id));
     }
 
     // Endpoint to create a new person
     @PostMapping("/persons")
-    public PersonEntity createPerson(@Valid @RequestBody PersonDTO personDTO) {
+    public ResponseEntity<PersonEntity> createPerson(@Valid @RequestBody PersonDTO personDTO) {
         PersonEntity personEntity = new PersonEntity(personDTO.name(), personDTO.age());
-        return personService.createPerson(personEntity.getName(), personEntity.getAge());
+        return ResponseEntity.of(Optional.ofNullable(personService.createPerson(personEntity.getName(), personEntity.getAge())));
     }
 
     // Endpoint to update an existing person
     @PutMapping("/persons/{id}")
-    public PersonEntity updatePerson(@PathVariable Long id, @Valid @RequestBody PersonDTO personDTO) {
+    public ResponseEntity<PersonEntity> updatePerson(@PathVariable Long id, @Valid @RequestBody PersonDTO personDTO) {
         PersonEntity personDetails = new PersonEntity(personDTO.name(), personDTO.age());
-        return personService.updatePerson(id, personDetails);
+        return ResponseEntity.of(Optional.ofNullable(personService.updatePerson(id, personDetails)));
     }
 
     // Endpoint to delete a person by id
